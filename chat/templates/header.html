@@ -1,0 +1,132 @@
+<!-- chat/templates/chat/base.html -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fa fa-comments"></i> ChatApp
+            </a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'home'%}">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            {{ user.username }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home' %}">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Log Out
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'login'%}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            Log In
+                        </a>
+                    </li>
+                    <li>
+                    <li>
+                        <a href="{% url 'register'%}">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            Register
+                        </a>
+                    </li>
+
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    {% block title %}<title>Chat Rooms</title>{% endblock %}-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+<!--    &lt;!&ndash; Добавление дополнительного статического CSS файла &ndash;&gt;-->
+<!--    {% load static %}-->
+<!--    <link rel="stylesheet" href="{% static 'css/styles.css' %}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1 align="center">Welcome to Chat</h1>-->
+<!--<div class="container-fluid">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-2">-->
+<!--            {% block sidebar %}-->
+<!--            <ul class="sidebar-nav">-->
+<!--                {% if user.is_authenticated %}-->
+<!--                <li>User: {{ user.get_username }}</li>-->
+<!--                <li>Logout</li>-->
+<!--                <li>New post</li>-->
+<!--                {% else %}-->
+<!--                <li>Login</li>-->
+<!--                {% endif %}-->
+<!--            </ul>-->
+<!--            {% endblock %}-->
+
+<!--            What chat room would you like to enter?<br>-->
+<!--            <input id="room-name-input" type="text" size="100"><br>-->
+<!--            <input id="room-name-submit" type="button" value="Enter">-->
+
+<!--            <script>-->
+<!--                        document.querySelector('#room-name-input').focus();-->
+<!--                        document.querySelector('#room-name-input').onkeyup = function(e) {-->
+<!--                            if (e.keyCode === 13) {  // enter, return-->
+<!--                                document.querySelector('#room-name-submit').click();-->
+<!--                            }-->
+<!--                        };-->
+
+<!--                        document.querySelector('#room-name-submit').onclick = function(e) {-->
+<!--                            var roomName = document.querySelector('#room-name-input').value;-->
+<!--                            window.location.pathname = '/chat/' + roomName + '/';-->
+<!--                        };-->
+
+
+<!--            </script>-->
+<!--        </div>-->
+<!--        <div class="col-sm-10 ">-->
+<!--            {% block content %}{% endblock %}-->
+
+<!--            {% block pagination %}-->
+<!--            {% if is_paginated %}-->
+<!--            <div class="pagination">-->
+<!--                      <span class="page-links">-->
+<!--                          {% if page_obj.has_previous %}-->
+<!--                              <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>-->
+<!--                          {% endif %}-->
+<!--                              <span class="page-current">-->
+<!--                                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
+<!--                              </span>-->
+<!--                          {% if page_obj.has_next %}-->
+<!--                              <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>-->
+<!--                          {% endif %}-->
+<!--                      </span>-->
+<!--            </div>-->
+<!--            {% endif %}-->
+<!--            {% endblock %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->

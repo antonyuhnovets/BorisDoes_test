@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +25,12 @@ SECRET_KEY = 'django-insecure-nu9==a^3$x7-txb6*m815)7-!)@h!v(!3gjn4%bp3bf5bv5a40
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
 
 
 # Application definition
@@ -49,13 +53,11 @@ REST_FRAMEWORK = {
         ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'chat.backends.JWTAuthentication',
-        )
+        ),
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=15),  # Token expires * minutes after being issued
-#     'JWT_ALLOW_REFRESH': True,
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=3),  # Token can be refreshed up to * minutes after being issued
-#  }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,7 +74,7 @@ ROOT_URLCONF = 'BorisDoes_test.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['chat.templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,8 +148,15 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_REDIRECT_URL = r'/w'
+LOGIN_URL = '/login/'
+
+MESSAGES_TO_LOAD = 15
 
 FILE_UPLOAD_PERMISSIONS = 0O640
 
@@ -155,3 +164,12 @@ FILE_UPLOAD_PERMISSIONS = 0O640
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

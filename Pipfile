@@ -11,6 +11,8 @@ psycopg2-binary = "*"
 pillow = "*"
 djangorestframework = "*"
 pyjwt = {extras = ["crypto"], version = "*"}
+channels-redis = "*"
+selenium = "*"
 
 [dev-packages]
 

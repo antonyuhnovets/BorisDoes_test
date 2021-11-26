@@ -1,8 +1,19 @@
-from django.conf.urls import url
-from .views import RegistrationAPIView, LoginAPIView
+from django.conf.urls import url, include
+from django.urls import path
+from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
+from rest_framework.routers import DefaultRouter
 
-app_name = 'chat'
+from .views import MessageModelViewSet, UserModelViewSet
+
+
+router = DefaultRouter()
+router.register(r'message', MessageModelViewSet, basename='message-api')
+router.register(r'user', UserModelViewSet, basename='user-api')
+
 urlpatterns = [
-    url(r'^registration/$', RegistrationAPIView.as_view()),
-    url(r'^login/$', LoginAPIView.as_view()),
+    path(r'api/v1/', include(router.urls)),
+
+    path(r'', login_required(
+        TemplateView.as_view(template_name='chat/room.html')), name='home'),
 ]
